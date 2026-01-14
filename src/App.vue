@@ -5,7 +5,7 @@ import axios from 'axios'
 // 定義資料狀態
 const newTodo = ref('')
 const todos = ref([])
-const API_URL = 'http://localhost:8080'
+const API_URL = 'https://my-todo-backend-p5s7.onrender.com'
 const loadingId = ref(null)
 // 1. 取得所有代辦事項 (對應 Go 的 GET /todos)
 const fetchTodos = async () => {
