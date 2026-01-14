@@ -11,7 +11,16 @@ const fetchTodos = async () => {
   const response = await axios.get(`${API_URL}/todos`)
   todos.value = response.data
 }
-
+const toggleStatus = async (id) => {
+  try {
+    // 呼叫剛剛寫好的 PUT API
+    await axios.put(`${API_URL}/todos/${id}`)
+    // 成功後，重新抓取清單來更新畫面
+    fetchTodos()
+  } catch (error) {
+    console.error("更新狀態失敗:", error)
+  }
+}
 // 2. 新增代辦事項 (對應 Go 的 POST /todos)
 const addTodo = async () => {
   if (!newTodo.value) return
@@ -60,6 +69,28 @@ onMounted(() => {
           v-for="todo in todos" :key="todo.ID"
           class="flex justify-between items-center p-3 bg-slate-50 rounded-lg group hover:bg-slate-100 transition"
         >
+      <div class="flex items-center cursor-pointer" @click="toggleStatus(todo.ID)">
+        
+        <span class="inline-block w-8 text-lg flex items-center justify-center">
+          
+          <span v-if="loadingId === todo.ID" class="animate-spin text-blue-500">
+            🔄
+          </span>
+          
+          <span v-else :class="todo.status ? 'text-green-500' : 'text-red-500'">
+            {{ todo.status ? '✓' : '✕' }}
+          
+          </span>
+            
+
+        </span>
+          <span :class="{ 'line-through text-gray-400': todo.status }" class="ml-2">
+              {{ todo.status ? '已完成' : '未完成' }}
+              </span>
+       
+      </div>
+          
+    
           <span class="text-slate-700">{{ todo.title }}</span>
           <button 
             @click="deleteTodo(todo.ID)"
@@ -69,6 +100,8 @@ onMounted(() => {
           </button>
         </li>
       </ul>
+
+
     </div>
   </div>
 </template>
