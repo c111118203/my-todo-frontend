@@ -5,7 +5,7 @@ import axios from 'axios'
 // 定義資料狀態
 const newTodo = ref('')
 const todos = ref([])
-const API_URL = 'https://my-todo-frontend-w36v.onrender.com'
+const API_URL = 'https://my-todo-backend-p5s7.onrender.com'
 // 1. 取得所有代辦事項 (對應 Go 的 GET /todos)
 const fetchTodos = async () => {
   const response = await axios.get(`${API_URL}/todos`)
@@ -15,7 +15,7 @@ const fetchTodos = async () => {
 // 2. 新增代辦事項 (對應 Go 的 POST /todos)
 const addTodo = async () => {
   if (!newTodo.value) return
-  await axios.post('${API_URL}/todos', {
+  await axios.post(`${API_URL}/todos`, {
     title: newTodo.value,
     status: false
   })
